@@ -1,0 +1,35 @@
+{
+  "name": "react-mirror",
+  "version": "1.0.0",
+  "description": "",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Theadd/react-mirror.git"
+  },
+  "scripts": {
+    "dist-modules": "babel ./src --out-dir ./dist-modules",
+    "test": "standard src/**/*"
+  },
+  "main": "dist-modules/index.js",
+  "author": {
+    "name": "theadd",
+    "url": "https://github.com/Theadd/"
+  },
+  "bugs": {
+    "url": "https://github.com/Theadd/react-mirror/issues"
+  },
+  "homepage": "https://Theadd.github.io/react-mirror/",
+  "dependencies": {},
+  "devDependencies": {},
+  "peerDependencies": {
+    "react": ">=0.13.0 <1.0.0"
+  },
+  "keywords": [
+    "react",
+    "reactjs",
+    "react-component",
+    "mirror",
+    "portal"
+  ],
+  "license": "MIT"
+}
