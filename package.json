@@ -1,7 +1,7 @@
 {
   "name": "react-mirror",
-  "version": "1.0.0",
-  "description": "",
+  "version": "0.1.0",
+  "description": "Mirror any react component.",
   "repository": {
     "type": "git",
     "url": "https://github.com/Theadd/react-mirror.git"
