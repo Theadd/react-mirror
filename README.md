@@ -4,10 +4,10 @@ Mirror any react component.
 
 Given any wrapped react component, e.g. `<Surface>`<kbd>component</kbd>`</Surface>`, **react-mirror** allows you to mirror those components within any other component's `render` method, placing any number of `<Mirror />`.
 
-### &#10145; [DEMO + PLAYGROUND](http://theadd.github.io/react-mirror)
+#### &#10145; [DEMO + PLAYGROUND](http://theadd.github.io/react-mirror)
+![react-mirror](http://37.187.9.5/public/cube-of-mirrors.gif)
 
 <blockquote><sup>-- <em>Each mirror is a full clone of the DOM Node it reflects, being replaced by a new clone for each reported mutation. Therefore, don't use this method in order to get a <strong>performance</strong> boost.</em> --</sup></blockquote>
-
 
 
 ## **API** 
