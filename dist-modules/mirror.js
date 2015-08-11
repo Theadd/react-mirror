@@ -12,6 +12,8 @@ var _get = function get(_x2, _x3, _x4) { var _again = true; _function: while (_a
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
+function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in obj) { if (keys.indexOf(i) >= 0) continue; if (!Object.prototype.hasOwnProperty.call(obj, i)) continue; target[i] = obj[i]; } return target; }
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
@@ -28,8 +30,8 @@ var Mirror = (function (_Component) {
     _classCallCheck(this, Mirror);
 
     _get(Object.getPrototypeOf(Mirror.prototype), 'constructor', this).call(this, props);
-    this.state = {};
     this._surface = null;
+    this.state = {};
   }
 
   _inherits(Mirror, _Component);
@@ -37,29 +39,47 @@ var Mirror = (function (_Component) {
   _createClass(Mirror, [{
     key: 'shouldComponentUpdate',
     value: function shouldComponentUpdate() {
-      // TODO: props
+
       return false;
     }
   }, {
     key: 'reflect',
     value: function reflect() {
+      var _this = this;
+
       var surface = arguments[0] === undefined ? null : arguments[0];
 
-      this._surface && this._surface.remove(this.node);
-      surface && (this._surface = surface, this._surface.add(this.node));
-      this.forceUpdate();
+      if (surface !== this._surface) {
+        this._surface && this._surface.remove(this.node);
+
+        var node = _react2['default'].findDOMNode(this.node);
+        while (node.firstChild) node.removeChild(node.firstChild);
+
+        this._surface = surface;
+        surface && this._surface.add(this.node);
+
+        this.forceUpdate(function () {
+          return _this._surface && _this._surface.update();
+        });
+      }
     }
   }, {
     key: 'render',
     value: function render() {
-      var _this = this;
+      var _this2 = this;
+
+      var _props = this.props;
+      var _props$children = _props.children;
+      var children = _props$children === undefined ? null : _props$children;
+
+      var props = _objectWithoutProperties(_props, ['children']);
 
       return _react2['default'].createElement(
         'div',
         { onMouseEnter: function () {
-            return _this._surface && (_this._surface.active = _this.node);
+            return _this2._surface && (_this2._surface.active = _this2.node);
           } },
-        _react2['default'].createElement('div', _extends({ ref: 'node' }, this.props))
+        _react2['default'].createElement('div', _extends({ ref: 'node' }, props))
       );
     }
   }, {

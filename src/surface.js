@@ -4,7 +4,13 @@ import Mirror from './mirror'
 
 const displayName = 'Surface'
 const propTypes = {
-  initialMirror: React.PropTypes.bool
+  children: React.PropTypes.element.isRequired,
+  initialMirror: React.PropTypes.bool,
+  equalityTest: React.PropTypes.any
+}
+const defaultProps = {
+  initialMirror: true,
+  equalityTest: true
 }
 
 class Surface extends Component {
@@ -14,9 +20,13 @@ class Surface extends Component {
     this.state = {}
   }
 
-  shouldComponentUpdate () {
-    // TODO: props
-    this.update()
+  shouldComponentUpdate ({ equalityTest, children }) {
+    const equal = typeof equalityTest === 'function' ? equalityTest(
+      React.Children.only(this.props.children).props,
+      React.Children.only(children).props
+    ) : equalityTest
+
+    !equal && this.update(children)
     return false
   }
 
@@ -38,10 +48,11 @@ class Surface extends Component {
   }
 
   remove (mirror) {
-    // TODO
+    this.refs.repl.remove(React.findDOMNode(mirror))
   }
 
-  update () {
+  update (children=null) {
+    children && (this.refs.repl.children = children)
     this.refs.repl.update()
   }
 
@@ -62,5 +73,6 @@ class Surface extends Component {
 
 Surface.displayName = displayName
 Surface.propTypes = propTypes
+Surface.defaultProps = defaultProps
 
 export default Surface

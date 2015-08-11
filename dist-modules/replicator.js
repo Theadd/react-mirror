@@ -6,7 +6,7 @@ Object.defineProperty(exports, '__esModule', {
 
 var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
 
-var _get = function get(_x3, _x4, _x5) { var _again = true; _function: while (_again) { var object = _x3, property = _x4, receiver = _x5; desc = parent = getter = undefined; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x3 = parent; _x4 = property; _x5 = receiver; _again = true; continue _function; } } else if ('value' in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
+var _get = function get(_x4, _x5, _x6) { var _again = true; _function: while (_again) { var object = _x4, property = _x5, receiver = _x6; desc = parent = getter = undefined; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x4 = parent; _x5 = property; _x6 = receiver; _again = true; continue _function; } } else if ('value' in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
@@ -59,7 +59,14 @@ var Replicator = (function (_Component) {
     value: function add() {
       var mirror = arguments[0] === undefined ? null : arguments[0];
 
-      mirror && (this._mirrors.add(mirror), this.update());
+      mirror && (this._mirrors.add(mirror), !this._master && (this.master = mirror, 1) || this.update());
+    }
+  }, {
+    key: 'remove',
+    value: function remove() {
+      var mirror = arguments[0] === undefined ? null : arguments[0];
+
+      mirror && (this.master === mirror && (this._master = null, this._mirrors.size && (this.master = this._mirrors.values().next().value, 1)) || (this._mirrors['delete'](mirror), this.update()));
     }
   }, {
     key: 'render',
@@ -140,6 +147,22 @@ var Replicator = (function (_Component) {
     },
     set: function set(value) {
       value && this.update(value);
+    }
+  }, {
+    key: 'children',
+    set: function set(value) {
+      if (value) {
+        var _props2 = this.props;
+        var children = _props2.children;
+
+        var props = _objectWithoutProperties(_props2, ['children']);
+
+        this._element = _react2['default'].createElement(
+          'div',
+          props,
+          value
+        );
+      }
     }
   }]);
 

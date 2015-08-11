@@ -30,8 +30,28 @@ class Replicator extends Component {
     value && this.update(value)
   }
 
+  set children (value) {
+    if (value) {
+      const { children, ...props } = this.props
+      this._element = <div { ...props }>{ value }</div>
+    }
+  }
+
   add (mirror=null) {
-    mirror && (this._mirrors.add(mirror), this.update())
+    mirror && (
+      this._mirrors.add(mirror),
+      (!this._master && (this.master = mirror, 1)) || this.update()
+    )
+  }
+
+  remove (mirror=null) {
+    mirror && (
+    this.master === mirror && (
+      this._master = null,
+      this._mirrors.size && (
+        this.master = this._mirrors.values().next().value, 1
+      )
+    ) || (this._mirrors.delete(mirror), this.update()))
   }
 
   render () {
@@ -42,8 +62,8 @@ class Replicator extends Component {
   handleMutations (target) {
     this._observer = new MutationObserver((records, observer) => (
       observer.takeRecords(),
-      observer.disconnect(),
-      this.update()
+        observer.disconnect(),
+        this.update()
     ))
     this._observer._target = target
   }
@@ -82,7 +102,7 @@ class Replicator extends Component {
 
       this._mirrors.size && this._mirrors.forEach( mirror => (
         mirror.firstChild ? mirror.replaceChild(node.cloneNode(true), mirror.firstChild) : mirror.appendChild(node.cloneNode(true)),
-        (mirror.style.pointerEvents = 'none')
+          (mirror.style.pointerEvents = 'none')
       ))
 
       this._observer.observe(this._observer._target, mutations)
