@@ -1,0 +1,162 @@
+/* import Surface, { Mirror } from 'react-mirror' */
+
+class Example extends React.Component {
+
+  componentDidMount () {
+    const { surface, lightsout, ...mirrors } = this.refs
+    surface && Object.keys(mirrors).forEach(key => mirrors[key].reflect(surface))
+  }
+
+  render () {
+
+    return (
+      <div className='react-mirror-example' style={{ margin: '20px auto', width: 885 }}>
+        <div style={{ float: 'right' }}>
+          <Mirror ref='mirror-on-right' />
+        </div>
+        <div style={{ float: 'left' }}>
+          <Surface ref='surface'>
+            <LightsOut ref='lightsout' />
+          </Surface>
+        </div>
+        <div style={{ position: 'relative', width: 0, height: 0, left: 0, top: -264 }}>
+          <style>{ cubeStyles }</style>
+          <div className='cube-view'>
+            <div className='cube'>
+              <div className='cube-side' style={{ transform: 'rotateX(90deg) translateZ(111px)' }}><Mirror ref='mirC1' /></div>
+              <div className='cube-side' style={{ transform: 'translateZ(111px)' }}><Mirror ref='mirC2' /></div>
+              <div className='cube-side' style={{ transform: 'rotateY(90deg) translateZ(111px)' }}><Mirror ref='mirC3' /></div>
+              <div className='cube-side' style={{ transform: 'rotateY(180deg) translateZ(111px)' }}><Mirror ref='mirC4' /></div>
+              <div className='cube-side' style={{ transform: 'rotateY(-90deg) translateZ(111px)' }}><Mirror ref='mirC5' /></div>
+              <div className='cube-side' style={{ transform: 'rotateX(-90deg) rotate(180deg) translateZ(111px)' }}><Mirror ref='mirC6' /></div>
+            </div>
+          </div>
+        </div>
+        <div style={{ float: 'left' }}>
+          <LightsOutInBackground ref='child-with-mirrors' style={{ transform: 'scale(0.6667, 0.6667)' }} />
+          <LightsOutInBackground ref='child-with-mirrors2' style={{ transform: 'scale(0.6667, -0.6667) translate(222px, -338px)' }} />
+          <LightsOutInBackground ref='child-with-mirrors3' style={{ transform: 'scale(0.6667, 0.6667)', transformOrigin: '400% top 0' }} />
+          <div style={{ width: 438, boxSizing: 'border-box' }}>
+            <h2>DEMO + PLAYGROUND w/ 17 MIRRORS</h2>
+            <blockquote style={{ fontSize: '0.87em', boxSizing: 'border-box', position: 'relative' }}>
+              This example makes use of <a href='https://github.com/chenglou/react-lights-out' title='React Lights Out' target='_blank'>
+                react-lights-out
+              </a> by <a href='https://github.com/chenglou' target='_blank'>Cheng Lou</a> as <em>surface</em>.
+              <br />
+              <button onClick={ () => this.refs.lightsout.handleReset() } style={{ float: 'right', position: 'relative', top: '-10px' }}>Shuffle</button>
+              Game Goal: <a href="http://en.wikipedia.org/wiki/Lights_Out_(game)#Light_chasing" target="_blank" id="hidden-cheat">
+                Turn on every switch.
+              </a>
+            </blockquote>
+          </div>
+          <div style={{ clear: 'both', float: 'none' }} />
+        </div>
+        <div style={{ clear: 'both', float: 'none' }} />
+      </div>
+    )
+  }
+
+}
+
+class LightsOutInBackground extends React.Component {
+
+  reflect (surface) {
+    surface && Object.keys(this.refs).forEach(key => this.refs[key].reflect(surface))
+  }
+
+  render () {
+    const { style={} } = this.props
+
+    return (
+      <div style={{ position: 'absolute', float: 'left', opacity: 0.1, transformOrigin: '0 0 0', width: 222, height: 333, transformStyle: 'preserve-3d', ...style }}>
+        <div>
+          <Mirror ref='mirror-big' />
+        </div>
+        <div style={{ transform: 'scale(0.5, 0.5)', transformOrigin: '0 0 0', width: 444, height: 222 }}>
+          <div style={{ display: 'block', float: 'left' }}>
+            <Mirror ref='mirror-small-left' />
+          </div>
+          <div style={{ display: 'block', float: 'left' }}>
+            <Mirror ref='mirror-small-right' />
+          </div>
+          <div style={{ clear: 'both', float: 'none' }} />
+        </div>
+      </div>
+    )
+  }
+}
+
+const cubeStyles = `
+.cube-view {
+  perspective: 1800px;
+  perspective-origin: 0 100%;
+  transform: scale(0.5, 0.5);
+}
+
+.cube-side {
+  background-color: currentColor;
+  border: 1px solid #aaa;
+  border-radius: 3px;
+  position: absolute;
+  height: 222px;
+  width: 222px;
+  transition: background-color .2s ease;
+}
+
+.cube-side .switch-off {
+  background-color: rgba(255, 255, 255, 0.6);
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.15) inset;
+}
+
+.cube-side .switch-off:hover {
+  background-color: rgba(255, 255, 215, 0.45);
+}
+
+.cube-side .switch-on {
+  opacity: 0.65;
+  transition: background-color .5s ease, opacity .1s ease;
+}
+
+.cube-side:hover .switch-on {
+  background-color: rgb(152, 250, 152);
+}
+
+.cube-side .switch-on:hover {
+  opacity: 1;
+}
+
+.cube {
+  position: relative;
+  margin: 0;
+  height: 222px;
+  width: 222px;
+  transition: transform 50ms linear;
+  transform-style: preserve-3d;
+  transition-duration: 500ms;
+  display: block;
+  animation-duration: 3s;
+  animation-name: rotatecube;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
+  transform: rotateX(-60deg) rotateY(-342deg);
+  animation-play-state: running;
+}
+
+.cube:hover {
+  animation-play-state: paused;
+}
+
+@keyframes rotatecube {
+  from {
+    transform: rotateX(-60deg) rotateY(-342deg);
+    color: rgba(255, 255, 255, 0.5);
+  }
+
+  to {
+    transform: rotateX(18deg) rotateY(120deg);
+    color: rgba(0, 0, 0, 0.3);
+  }
+}
+`
+
+React.render(<Example />, mountNode)
