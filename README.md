@@ -44,6 +44,7 @@ class Demo extends Component {
 PARAMS | DEFAULT | DESCRIPTION
 ------:|:--------|:------------------------
 <sub>__`initialMirror`__</sub>   | <sub>`true`</sub>  | <sub>Automatically creates a `Mirror` for this `Surface`.</sub>
+<sub>__`equalityTest`__</sub>   | <sub>`true`</sub>  | <sub>Accepts any *primitive* value (taken as boolean) or a <var>function</var> to retrieve that value given `previous` and `next` props from the wrapped component as arguments.<br />This value represents the equality comparison of the given arguments. So, when **NOT** positive, it will update `Surface`'s internal ReactElement with the *next* one.<br />* If you pretend to pass down updated props to the wrapped component you have to specify some other value than `true` here. Like `false` or any [shallowEqual](https://github.com/gaearon/react-pure-render/blob/master/src/shallowEqual.js) implementation out there.</sub>
 
 
 ### **&lt;Mirror /&gt;**
