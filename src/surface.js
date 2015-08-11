@@ -3,7 +3,9 @@ import Replicator from './replicator'
 import Mirror from './mirror'
 
 const displayName = 'Surface'
-const propTypes = {}
+const propTypes = {
+  initialMirror: React.PropTypes.bool
+}
 
 class Surface extends Component {
 
@@ -19,8 +21,8 @@ class Surface extends Component {
   }
 
   componentDidMount () {
-    this.refs.prime.reflect(this)
-    this.active = this.refs.prime.node
+    const { initialMirror=true } = this.props
+    initialMirror && (this.refs.prime.reflect(this), (this.active = this.refs.prime.node))
   }
 
   get active () {
@@ -44,11 +46,11 @@ class Surface extends Component {
   }
 
   render () {
-    let { children, ...props } = this.props
+    const { children, initialMirror=true, ...props } = this.props
 
     return (
       <div>
-        <Mirror ref='prime'></Mirror>
+        { initialMirror ? <Mirror ref='prime'></Mirror> : null }
         <Replicator ref='repl' { ...props }>
           { children }
         </Replicator>
