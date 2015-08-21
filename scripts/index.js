@@ -4,16 +4,37 @@ import React, { Component } from 'react'
 React.initializeTouchEvents(true)
 
 import Main from './pages/main/main'
+import Sketch from './pages/sketch/sketch'
 
 import logoPNG from '../images/react-mirror.png'
 import headerPNG from '../images/header.png'
 import mirrorsPNG from '../images/mirrors.png'
 
 const displayName = 'App'
+const pages = new Map([['', Main], ['#sketch', Sketch]])
 
 class App extends Component {
 
+  constructor (props) {
+    super(props)
+    !pages.has(window.location.hash) && (window.location.hash = '')
+
+    window.onhashchange = this.handleHashChange.bind(this)
+    this.state = {
+      Page: pages.get(window.location.hash)
+    }
+  }
+
+  handleHashChange () {
+    console.debug("IN App.handleHashChange()")
+    !pages.has(window.location.hash) && (window.location.hash = '')
+    this.setState({
+      Page: pages.get(window.location.hash)
+    })
+  }
+
   render () {
+    const { Page } = this.state
 
     return (
       <div id='container'>
@@ -32,11 +53,11 @@ class App extends Component {
             <a href='https://github.com/Theadd/react-mirror' id='view-on-github' className='button'><span>View on GitHub</span></a>
           </section>
           <div style={{ float: 'none', clear: 'both' }} />
-          <div style={{ position: 'absolute', height: 0, overflow: 'visible', float: 'left', marginTop: '-103px', marginLeft: '-74px', zIndex: 1 }}>
+          { window.location.hash === '' ? <div style={{ position: 'absolute', height: 0, overflow: 'visible', float: 'left', marginTop: '-103px', marginLeft: '-74px', zIndex: 1 }}>
             <img src={ mirrorsPNG } alt='mirrors' />
-          </div>
+          </div> : null }
           <section id="main_content">
-            <Main />
+            <Page />
           </section>
           <footer>
             react-mirror is maintained by <a href='https://github.com/Theadd'>Theadd</a><br />
@@ -51,9 +72,3 @@ class App extends Component {
 App.displayName = displayName
 
 React.render(<App />, document.getElementById('root'))
-
-//TODO: remove
-
-var gBabel = require("babel-core/browser");
-
-window._gBabel = gBabel;
