@@ -10,3 +10,32 @@
     margin-top: 1em;
     margin-bottom: -1em;
 }
+
+.lens-scene {
+  position: absolute;
+  width: 0;
+  height: 0;
+  overflow: visible;
+  font-size: 2em;
+}
+
+.lens-shape {
+  position: absolute;
+  font-size: 1em;
+  width: 3em;
+  height: 3em;
+  overflow: hidden;
+  border-radius: 3em;
+  border: 1px solid rgba(0, 0, 0, 0.16);
+  box-shadow: 0 0 13px 3px rgba(0, 0, 0, 0.1) inset;
+  margin-left: 14em;
+}
+
+.lens-shape > div {
+  margin-left: -14em;
+}
+
+.lens-shape .header-svg-text > svg:first-child {
+  margin-top: 0.5em;
+  margin-bottom: -0.5em;
+}

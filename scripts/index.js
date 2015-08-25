@@ -3,6 +3,7 @@ import React, { Component } from 'react'
 
 React.initializeTouchEvents(true)
 
+import Surface, { Mirror } from 'react-mirror'
 import Main from './pages/main/main'
 import Sketch from './pages/sketch/sketch'
 import FitterHappierText from 'react-fitter-happier-text'
@@ -26,6 +27,10 @@ class App extends Component {
       Page: pages.get(window.location.hash)
     }
   }
+  
+  componentDidMount () {
+    this.refs.lensMirror.reflect(this.refs.surfHeader)
+  }
 
   handleHashChange () {
     !pages.has(window.location.hash) && (window.location.hash = '')
@@ -42,10 +47,17 @@ class App extends Component {
         <div className='inner'>
           <header style={{ marginLeft: 160, position: 'relative', overflow: 'visible', marginBottom: '-80px' }}>
             <img src={ logoPNG } alt='react-mirror' title='react-mirror' />
-            <div className='header-svg-text'>
-              <FitterHappierText text={ `Takes control of component's rendering cycle` } />
-              <FitterHappierText text={ `allowing many synchronized replicas of it's DOM` } />
+            <div className='lens-scene'>
+              <div className='lens-shape'>
+                <Mirror ref='lensMirror' />
+              </div>
             </div>
+            <Surface ref='surfHeader'>
+              <div className='header-svg-text'>
+                <FitterHappierText text={ `Takes control over the component's rendering cycle` } />
+                <FitterHappierText text={ `allowing many synchronized replicas of its DOM` } />
+              </div>
+            </Surface>
             <h2 style={{ fontSize: '1.05em', marginRight: 20, textAlign: 'right', letterSpacing: '0.01em' }}>
               Besides, you can remove all replicas of a mirrored component, which will detach all nodes from that component from the DOM but
               as long as you keep a reference to its surface, it can be replicated again as if it was never gone.
