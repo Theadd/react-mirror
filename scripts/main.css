@@ -1,0 +1,12 @@
+
+.header-svg-text {
+    font-weight: bold;
+    margin-left: 50px;
+    text-align: right;
+    width: 600px;
+}
+
+.header-svg-text > svg:first-child {
+    margin-top: 1em;
+    margin-bottom: -1em;
+}
