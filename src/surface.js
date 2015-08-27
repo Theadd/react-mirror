@@ -57,7 +57,7 @@ class Surface extends Component {
   }
 
   render () {
-    const { children, initialMirror=true, ...props } = this.props
+    const { children, equalityTest, initialMirror=true, ...props } = this.props
 
     return (
       <div>
