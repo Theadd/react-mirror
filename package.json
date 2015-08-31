@@ -1,6 +1,6 @@
 {
   "name": "react-mirror",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Mirror any react component.",
   "repository": {
     "type": "git",
@@ -22,7 +22,7 @@
   "dependencies": {},
   "devDependencies": {},
   "peerDependencies": {
-    "react": ">=0.13.0 <1.0.0"
+    "react": ">=0.13.3 || ^0.14.0-beta3"
   },
   "keywords": [
     "react",
