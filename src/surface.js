@@ -1,16 +1,18 @@
-import React, { Component } from 'react'
+import React, { Component, PropTypes } from 'react'
 import Replicator from './replicator'
 import Mirror from './mirror'
 
 const displayName = 'Surface'
 const propTypes = {
-  children: React.PropTypes.element.isRequired,
-  initialMirror: React.PropTypes.bool,
-  equalityTest: React.PropTypes.any
+  children: PropTypes.element.isRequired,
+  initialMirror: PropTypes.bool,
+  equalityTest: PropTypes.any,
+  keepInSync: PropTypes.bool
 }
 const defaultProps = {
   initialMirror: true,
-  equalityTest: true
+  equalityTest: true,
+  keepInSync: false
 }
 
 class Surface extends Component {
@@ -20,18 +22,20 @@ class Surface extends Component {
     this.state = {}
   }
 
-  shouldComponentUpdate ({ equalityTest, children }) {
+  shouldComponentUpdate ({ equalityTest, keepInSync, children }) {
     const equal = typeof equalityTest === 'function' ? equalityTest(
       React.Children.only(this.props.children).props,
       React.Children.only(children).props
     ) : equalityTest
 
-    !equal && this.update(children)
+    !equal && (this.update(children, keepInSync === this.props.keepInSync ? null : keepInSync), 1) || (
+      (keepInSync !== this.props.keepInSync) && (this.refs.repl.keepInSync = keepInSync)
+    )
     return false
   }
 
   componentDidMount () {
-    const { initialMirror=true } = this.props
+    const { initialMirror } = this.props
     initialMirror && (this.refs.prime.reflect(this), (this.active = this.refs.prime.node))
   }
 
@@ -51,13 +55,23 @@ class Surface extends Component {
     this.refs.repl.remove(React.findDOMNode(mirror))
   }
 
-  update (children=null) {
+  update (children=null, keepInSync=null) {
     children && (this.refs.repl.children = children)
+    keepInSync != null && (this.refs.repl.keepInSync = keepInSync)
     this.refs.repl.update()
   }
 
+  /**
+   *
+   * @param {?boolean} [sync=null] - If true, it will internally render the controlled component in advance. If unspecified, it only syncs if it was never rendered before. If set to false it just returns that node.
+   * @returns {DOMNode}
+   */
+  getDOMNode (sync=null) {
+    return this.refs.repl.getDOMNode(sync)
+  }
+
   render () {
-    const { children, equalityTest, initialMirror=true, ...props } = this.props
+    const { children, equalityTest, initialMirror, ...props } = this.props
 
     return (
       <div>

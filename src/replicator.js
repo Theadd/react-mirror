@@ -14,11 +14,13 @@ class Replicator extends Component {
     this._ghost = null
     this._master = null
     this._mirrors = new Set()
+    this._observing = false
+    this._keepInSync = props.keepInSync
   }
 
   shouldComponentUpdate ({ children, ...props }) {
-    this._element = <div { ...props }>{ children }</div>
-    this._master && this.update()
+    this._element = React.createElement('div', props, children)
+    this.update()
     return false
   }
 
@@ -33,8 +35,17 @@ class Replicator extends Component {
   set children (value) {
     if (value) {
       const { children, ...props } = this.props
-      this._element = <div { ...props }>{ value }</div>
+      this._element = React.createElement('div', props, value)
     }
+  }
+
+  set keepInSync (value) {
+    typeof(value) === 'boolean' && value !== this._keepInSync && (
+      this._keepInSync = value,
+      value && (
+        !this._master && this.observe(true)
+      )
+    )
   }
 
   add (mirror=null) {
@@ -62,15 +73,31 @@ class Replicator extends Component {
   handleMutations (target) {
     this._observer = new MutationObserver((records, observer) => (
       observer.takeRecords(),
-        observer.disconnect(),
-        this.update()
+      observer.disconnect(),
+      this._observing = false,
+      this.update()
     ))
     this._observer._target = target
   }
 
+  observe (shouldObserve) {
+    if (shouldObserve) {
+      if (!this._observing) {
+        this._observing = true
+        this._observer.observe(this._observer._target, mutations)
+      } // else ... it's already observing
+    } else {
+      if (this._observing) {
+        this._observing = false
+        this._observer.disconnect()
+        this._observer.takeRecords()
+      }
+    }
+  }
+
   componentDidMount () {
     let { children, ...props } = this.props
-    this._element = <div { ...props }>{ children }</div>
+    this._element = React.createElement('div', props, children)
     this._imprint = document.createElement('div')
     this.handleMutations(this._imprint)
     this._master && this.update()
@@ -104,11 +131,14 @@ class Replicator extends Component {
         mirror.firstChild ? mirror.replaceChild(node.cloneNode(true), mirror.firstChild) : mirror.appendChild(node.cloneNode(true)),
           (mirror.style.pointerEvents = 'none')
       ))
-
-      this._observer.observe(this._observer._target, mutations)
+    } else if (this._keepInSync) {
+      React.render(this._element, this._imprint)
     }
+    this.observe(true)
+  }
 
-
+  getDOMNode (sync) {
+    return ((sync || (sync == null && !this._imprint.children.length)) && React.render(this._element, this._imprint), this._imprint)
   }
 
 }
