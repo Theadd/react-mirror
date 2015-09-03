@@ -1,11 +1,3 @@
 {
-  "stage": 0,
-  "env": {
-    "production": {
-      "optional": []
-    },
-    "development": {
-      "optional": []
-    }
-  }
+  "stage": 0
 }

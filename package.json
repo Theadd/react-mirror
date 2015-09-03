@@ -1,16 +1,16 @@
 {
   "name": "react-mirror",
-  "version": "0.3.0",
-  "description": "Mirror any react component.",
+  "version": "0.4.0",
+  "description": "Takes control of component's rendering cycle allowing many synchronized replicas of it's DOM",
   "repository": {
     "type": "git",
     "url": "https://github.com/Theadd/react-mirror.git"
   },
   "scripts": {
-    "dist-modules": "babel ./src --out-dir ./dist-modules",
+    "build": "babel ./src --out-dir ./lib",
     "test": "standard src/**/*"
   },
-  "main": "dist-modules/index.js",
+  "main": "lib/index.js",
   "author": {
     "name": "theadd",
     "url": "https://github.com/Theadd/"

@@ -1,6 +1,6 @@
 import { createElement } from 'react'
-import Surface from './surface'
-import assign from './utils/assign'
+import Surface from '../../surface'
+import assign from '../../utils/assign'
 
 const Reflectable = (props={}) => {
 
