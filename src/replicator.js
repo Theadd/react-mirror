@@ -120,7 +120,7 @@ class Replicator extends Component {
       !this._ghost && (this._ghost = document.createElement('div'))
       this._master.parentNode.appendChild(this._ghost)
       this._ghost.appendChild(this._imprint)
-      React.render(this._element, this._imprint)
+      React.unstable_renderSubtreeIntoContainer(this, this._element, this._imprint)
       this._master.parentNode.removeChild(this._ghost)
       this._master.appendChild(this._ghost.firstChild)
 
@@ -132,13 +132,13 @@ class Replicator extends Component {
           (mirror.style.pointerEvents = 'none')
       ))
     } else if (this._keepInSync) {
-      React.render(this._element, this._imprint)
+      React.unstable_renderSubtreeIntoContainer(this, this._element, this._imprint)
     }
     this.observe(true)
   }
 
   getDOMNode (sync) {
-    return ((sync || (sync == null && !this._imprint.children.length)) && React.render(this._element, this._imprint), this._imprint)
+    return ((sync || (sync == null && !this._imprint.children.length)) && React.unstable_renderSubtreeIntoContainer(this, this._element, this._imprint), this._imprint)
   }
 
 }

@@ -1,6 +1,6 @@
 {
   "name": "react-mirror",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "description": "Takes control of component's rendering cycle allowing many synchronized replicas of it's DOM",
   "repository": {
     "type": "git",
