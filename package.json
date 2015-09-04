@@ -11,6 +11,7 @@
     "test": "standard src/**/*"
   },
   "main": "lib/index.js",
+  "jsnext:main": "src/index.js",
   "author": {
     "name": "theadd",
     "url": "https://github.com/Theadd/"
