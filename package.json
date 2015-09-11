@@ -4,7 +4,7 @@
   "description": "Takes control of component's rendering cycle allowing many synchronized replicas of it's DOM",
   "repository": {
     "type": "git",
-    "url": "https://github.com/Theadd/react-mirror.git"
+    "url": "git://github.com/Theadd/react-mirror.git"
   },
   "scripts": {
     "build": "babel ./src --out-dir ./lib",
@@ -23,7 +23,7 @@
   "dependencies": {},
   "devDependencies": {},
   "peerDependencies": {
-    "react": ">=0.13.3 || ^0.14.0-beta3"
+    "react": ">=0.13.3 || ^0.14.0-beta3 || ^0.14.0-rc1"
   },
   "keywords": [
     "react",
