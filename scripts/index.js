@@ -1,7 +1,7 @@
 //import 'babel/register'
 import React, { Component } from 'react'
 
-React.initializeTouchEvents(true)
+//React.initializeTouchEvents(true)
 
 import Surface, { Mirror } from 'react-mirror'
 import Main from './pages/main/main'
