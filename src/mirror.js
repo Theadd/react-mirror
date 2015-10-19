@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import ReactDOM from 'react-dom'
 
 const displayName = 'Mirror'
 const propTypes = {}
@@ -26,7 +27,7 @@ class Mirror extends Component {
     if (surface !== this._surface) {
       this._surface && this._surface.remove(this.node)
 
-      const node = React.findDOMNode(this.node)
+      const node = ReactDOM.findDOMNode(this.node)
       while (node.firstChild) node.removeChild(node.firstChild)
 
       this._surface = surface

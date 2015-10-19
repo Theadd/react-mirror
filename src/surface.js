@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react'
+import ReactDOM from 'react-dom'
 import Replicator from './replicator'
 import Mirror from './mirror'
 
@@ -44,15 +45,15 @@ class Surface extends Component {
   }
 
   set active (mirror) {
-    mirror && (this.refs.repl.master = React.findDOMNode(mirror))
+    mirror && (this.refs.repl.master = ReactDOM.findDOMNode(mirror))
   }
 
   add (mirror) {
-    this.refs.repl.add(React.findDOMNode(mirror))
+    this.refs.repl.add(ReactDOM.findDOMNode(mirror))
   }
 
   remove (mirror) {
-    this.refs.repl.remove(React.findDOMNode(mirror))
+    this.refs.repl.remove(ReactDOM.findDOMNode(mirror))
   }
 
   update (children=null, keepInSync=null) {

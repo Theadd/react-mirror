@@ -2,22 +2,20 @@ import { Component, createElement, PropTypes } from 'react'
 import Surface from '../../surface'
 import { collection } from './collection'
 
-class PublicSurface extends Component {
-  static displayName = 'PublicSurface'
+const propTypes = {
+  id: PropTypes.string,
+  parentId: PropTypes.string
+}
 
+const contextTypes = {
+  '--everywhere-parentId': PropTypes.string,
+  '--everywhere-prev-parentId': PropTypes.any
+}
+
+class PublicSurface extends Component {
   constructor (props, context) {
     super(props, context)
     this._params = this._getPublicParams(props, context)
-  }
-
-  static propTypes = {
-    id: PropTypes.string,
-    parentId: PropTypes.string
-  }
-
-  static contextTypes = {
-    '--everywhere-parentId': PropTypes.string,
-    '--everywhere-prev-parentId': PropTypes.any
   }
 
   componentDidMount () {
@@ -25,11 +23,11 @@ class PublicSurface extends Component {
   }
 
   get id () {
-    return typeof(this._id) === 'string' ? String(this._id) : null
+    return typeof this._id === 'string' ? String(this._id) : null
   }
 
-  _getPublicParams ({ id=null, parentId=void 0 }, { [`--everywhere-parentId`]: _parentId=null, [`--everywhere-prev-parentId`]: _prev_parentId=null }) {
-    return (id != null && (parentId === void 0 && (
+  _getPublicParams ({ id = null, parentId = void 0 }, { [`--everywhere-parentId`]: _parentId = null, [`--everywhere-prev-parentId`]: _prev_parentId = null }) {
+    return ((id != null && (parentId === void 0 && (
       _parentId === id && (
         parentId = _prev_parentId, 1
       ) || (
@@ -37,7 +35,7 @@ class PublicSurface extends Component {
       )
     ), 1) || (
       parentId === void 0 && (parentId = _parentId, 1)
-    )), { id, parentId }
+    )), { id, parentId })
   }
 
   render () {
@@ -46,5 +44,8 @@ class PublicSurface extends Component {
     return createElement(Surface, { ...props, ref: 'surface' }, children)
   }
 }
+
+PublicSurface.propTypes = propTypes
+PublicSurface.contextTypes = contextTypes
 
 export { PublicSurface }

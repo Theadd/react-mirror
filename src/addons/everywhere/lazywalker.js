@@ -9,8 +9,7 @@ function simpleSearchFn (pattern, instance /*, id, path*/) {
   return (instance && (instance.text || (instance.toString && instance.toString()) || '').includes(pattern)) ? flags.MATCH : flags.CONTINUE
 }
 
-function lazyWalker ({ defaultSearchFn=simpleSearchFn }) {
-
+function lazyWalker ({ defaultSearchFn = simpleSearchFn }) {
   let entries = new Map()
   let wayback = new Map()
   let triggers = new Map()  // [ ['id', new Set(cb, ...)], ... ]
@@ -42,7 +41,7 @@ function lazyWalker ({ defaultSearchFn=simpleSearchFn }) {
   }
 
   const LazyWalker = {
-    set: function (instance, id=null, parent=null) {
+    set: function (instance, id = null, parent = null) {
       id == null && (id = IdGenerator.next().value)
       wayback.set(id, parent)
       let entry = getEntryFor(id)
@@ -61,9 +60,8 @@ function lazyWalker ({ defaultSearchFn=simpleSearchFn }) {
       return (triggers.get(id) || triggers.set(id, new Set()).get(id)).add(cb)
     },
 
-    search: function (pattern, searchFn=defaultSearchFn) {
-
-      function * walk (data, path=[]) {
+    search: function (pattern, searchFn = defaultSearchFn) {
+      function * walk (data, path = []) {
         let res = 0
         for (let [id, entry] of data) {
           res = searchFn(pattern, entry[0], id, path)
