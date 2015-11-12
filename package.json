@@ -1,6 +1,6 @@
 {
   "name": "react-mirror",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Takes control of component's rendering cycle allowing many synchronized replicas of it's DOM",
   "repository": {
     "type": "git",
@@ -26,8 +26,8 @@
     "standard": "^5.3.1"
   },
   "peerDependencies": {
-    "react": "^0.14.0",
-    "react-dom": "^0.14.0"
+    "react": ">=0.14.0",
+    "react-dom": ">=0.14.0"
   },
   "keywords": [
     "react",
