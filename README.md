@@ -1,5 +1,10 @@
 [![react-mirror](http://37.187.9.5/public/mirror.gif)](http://theadd.github.io/react-mirror/demos/react-motion-demo2/)
 # react-mirror
+
+> **This was developed for _React v0.14_ and it doesn't work in newer versions. See [Emmanuel Ogbizi](https://github.com/iamogbz)'s [react-mirror](https://github.com/iamogbz/react-mirror ) as an alternative.**
+
+---
+
 Mirror any react component.
 
 Given any wrapped react component, e.g. `<Surface>`<kbd>component</kbd>`</Surface>`, **react-mirror** allows you to mirror those components within any other component's `render` method, placing any number of `<Mirror />`.
