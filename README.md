@@ -3,7 +3,7 @@
 
 > **This was developed for _React v0.14_ and it doesn't work in newer versions. See [Emmanuel Ogbizi](https://github.com/iamogbz)'s [react-mirror](https://github.com/iamogbz/react-mirror ) as an alternative.**
 
----
+[![No Maintenance Intended](https://unmaintained.tech/badge.svg)](https://unmaintained.tech/)
 
 Mirror any react component.
 
